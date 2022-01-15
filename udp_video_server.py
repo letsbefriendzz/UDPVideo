@@ -93,6 +93,8 @@ while True:
             break
 
         # fps calcuilation
+        # if the number of frames passed since the previous execution of this logic
+        # is equal to the fps of the video...
         if cnt == framesToCount:
             try:
                 fps = round(framesToCount/(time.time()-st), 10)
