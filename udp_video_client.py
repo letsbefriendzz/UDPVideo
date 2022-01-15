@@ -51,6 +51,17 @@ def ProcessFrames():
     PreviousTime = time.time()
     while True:
         try:
+            # I'm realizing that this specifically should be commented because of how needlessly convoluted
+            # it is. So, we only want to display a frame every time FrameInterval seconds have passed. So
+            # we can, in theory, check this by subtracting the previous time a frame was displayed (PreviousTime)
+            # from the current time (time.time()) and seeing if it's equal to our FrameInterval. The issue
+            # is that we basically never hit the exact elapsed time as the FrameInterval - so we have to give
+            # it a bit of a range, which I've established as +-0.0025s. This if statement checks that the elapsed
+            # time between frames is within FrameInterval +- 0.0025 -- if it is, then we process and display the
+            # frame.
+            #
+            # Tweak the acceptable fault range for more stable FPS, maybe? Idk. Stabilizing the framerate seems
+            # impossible.
             if (time.time() - PreviousTime) < FrameInterval + 0.0025 and (time.time() - PreviousTime) > FrameInterval - 0.0025:
                 data = UnparsedFrames.get()
                 npdata = np.frombuffer(data, dtype = np.uint8)
