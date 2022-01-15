@@ -79,6 +79,17 @@ def ProcessFrames():
             print("No Frames!")
             pass
 
+"""
+                if fps > FPS and FrameInterval > FrameInterval - 0.001:
+                    print("Increase")
+                    FrameInterval += 0.00025
+                elif fps < FPS and FrameInterval < FrameInterval + 0.001:
+                    FrameInterval -= 0.00025
+                    print("Decrease")
+"""
+            # else:
+                # print(time.time() - PreviousTime)
+
 # UDPGetFrames()
 # This function is the networking side of the client application. It also runs on
 # its own thread. Using socket stuffs, it receives packets from the specified server
@@ -112,18 +123,13 @@ def UDPGetFrames():
 
 # MAIN THREAD
 # The main thread just creates two threads for the networking and frame processing
-# functions respectively. The threads are started, and enters a loop checking for
-# the bool flag to be set. If it's True, it passes the while loop and joins the
-# threads.
+# functions respectively. The threads are started, and then waits for them to join.
 
 NetworkThread = threading.Thread(target=UDPGetFrames)
 VideoThread = threading.Thread(target=ProcessFrames)
 
 VideoThread.start()
 NetworkThread.start()
-
-while flag == False:
-    pass
 
 VideoThread.join()
 NetworkThread.join()
