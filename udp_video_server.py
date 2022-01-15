@@ -40,7 +40,7 @@ FPS = vid.get(cv2.CAP_PROP_FPS)
 # idk what st means
 # framesToCount likely means the number of frames we need to iterate through
 # cnt maybe the running count?
-fps, st, framesToCount, cnt = (0,0,26,0)
+fps, st, framesToCount, cnt = (0,0,24,0)
 
 while True:
     msg, client_addr = server_socket.recvfrom(BUFF_SIZE)
@@ -86,11 +86,13 @@ while True:
         # frame = cv2.putText(frame, 'FPS: ' + str(fps), (10,40), cv2.FONT_ITALIC, 0.7, (0.0,255))
         # cv2.imshow('TRANSMITTING VIDEO', frame)
 
+        # exit condition that I'm fairly certain doesn't work
         key = cv2.waitKey(1) & 0xFF
         if key == ord('q'):
             server_socket.close()
             break
 
+        # fps calcuilation
         if cnt == framesToCount:
             try:
                 fps = round(framesToCount/(time.time()-st), 10)

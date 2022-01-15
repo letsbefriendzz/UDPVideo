@@ -44,6 +44,8 @@ flag = False
 # current and target framerates to the console, and continue on to another
 # loop iteration.
 def ProcessFrames():
+    # FrameInterval represents the elapsed time, in seconds, between frames
+    # so it's just 1 / FPS lol
     FrameInterval = 1 / FPS
     fps, st, framesToCount, cnt = (0,0,26,0)
     PreviousTime = time.time()
