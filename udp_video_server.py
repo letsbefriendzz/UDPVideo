@@ -7,29 +7,35 @@ import base64
 import sys
 import threading
 
+# function that sends a packet
+# why did I make this a separate function again?
 def SendPacket(packet, socket, client):
     socket.sendto(packet, client)
-    
     return
 
-#const for buffer size
+# const for buffer size
+# sadly can't have a buffer that's bigger than this
+# this buffer size is some sort of network maximum!
+# so if you want to transfer HD video frames, you need to split the message into
+# multiple packets, send them, and somehow reassemble them on the client side. that's
+# the next plan for this!
 BUFF_SIZE = 65536
 
-#socket init stuff - read docs bc i don't understand it
+# socket init stuff - read docs bc i don't understand it
+# update: i read the docs last night and now i kinda understand it ! :)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, BUFF_SIZE)
 
-# IP AND PORT SETTINGS HERE:
-#setting host info
+# HOST IP AND PORT SETTINGS HERE:
 host_name = socket.gethostname()
 host_ip = "127.0.0.1"
 port = 9999
 
-#binding the socket
+# binding the socket
 socket_address = (host_ip, port)
 server_socket.bind(socket_address)
 
-#checks if we can listen at this address
+# checks if we can listen at this address
 print("Listening at:", socket_address)
 
 vid = cv2.VideoCapture("F:\_PIRACY\TV\Corner Gas\s1\Corner.Gas.s01e01.Ruby.Reborn.avi") #replace name with 0 for webcam????
@@ -104,7 +110,7 @@ while True:
                 pass
         cnt += 1
 
-#dynamic jpeg quality -- cool idea but bad in practice because lag
+# dynamic jpeg quality -- cool idea but bad in practice because lag
 
         #while sys.getsizeof(message) < 65536:
         #    if(jpegQuality == 100):
