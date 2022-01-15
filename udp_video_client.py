@@ -79,17 +79,6 @@ def ProcessFrames():
             print("No Frames!")
             pass
 
-"""
-                if fps > FPS and FrameInterval > FrameInterval - 0.001:
-                    print("Increase")
-                    FrameInterval += 0.00025
-                elif fps < FPS and FrameInterval < FrameInterval + 0.001:
-                    FrameInterval -= 0.00025
-                    print("Decrease")
-"""
-            # else:
-                # print(time.time() - PreviousTime)
-
 # UDPGetFrames()
 # This function is the networking side of the client application. It also runs on
 # its own thread. Using socket stuffs, it receives packets from the specified server
@@ -102,9 +91,9 @@ def UDPGetFrames():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, BUFF_SIZE)
 
+    # IP AND PORT SETTINGS HERE:
     host_name = socket.gethostname()
     host_ip = "127.0.0.1"
-    print(host_ip)
     port = 9999
     message = b'Hello'
 
