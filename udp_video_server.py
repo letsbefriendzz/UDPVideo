@@ -41,11 +41,7 @@ print("Listening at:", socket_address)
 vid = cv2.VideoCapture("F:\_PIRACY\TV\Corner Gas\s1\Corner.Gas.s01e01.Ruby.Reborn.avi") #replace name with 0 for webcam????
 FPS = vid.get(cv2.CAP_PROP_FPS)
 
-# get fps info
-# fps is self explanatory
-# idk what st means
-# framesToCount likely means the number of frames we need to iterate through
-# cnt maybe the running count?
+# variables for FPS info
 fps, st, framesToCount, cnt = (0,0,24,0)
 
 while True:
