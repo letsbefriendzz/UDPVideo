@@ -58,26 +58,35 @@ while True:
     #b64, and transmit it
     while(vid.isOpened()):
 
+        # vid.read() rips the next frame from the vid,
+        # acts like a queue in my best estimation
         _,frame = vid.read()
 
+        # resizes the current frame with our WIDTH const
         frame = imutils.resize(frame, width=WIDTH)
 
+        # encodes the frame in jpg format, specifies the compression % using jpeqQuality variable
+        # default set to 40%
         encoded,buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, jpegQuality])
         
+        # creates a message with b64encoded buffer
         message = base64.b64encode(buffer)
 
+        # quick dump of frame data to console (JPEG quality, size of packet)
         print("FRAME DATA:")
-        print("JPEG: %", jpegQuality)
+        print("JPEG:\t%", jpegQuality)
+        print("FPS:\t", fps)
         print(message.__sizeof__())
-        # if sys.getsizeof(message) < 65536:
-        # server_socket.sendto(message, client_addr)
 
+        # if the message is larger than 64kb, don't send it because network exception
         if(message.__sizeof__() < 65536):
             SendPacket(message, server_socket, client_addr)
 
-        frame = cv2.putText(frame, 'FPS: ' + str(fps), (10,40), cv2.FONT_ITALIC, 0.7, (0.0,255))
 
-        cv2.imshow('TRANSMITTING VIDEO', frame)
+        # uncomment the below two lines to display vidoe stream on server side
+        # frame = cv2.putText(frame, 'FPS: ' + str(fps), (10,40), cv2.FONT_ITALIC, 0.7, (0.0,255))
+        # cv2.imshow('TRANSMITTING VIDEO', frame)
+
         key = cv2.waitKey(1) & 0xFF
         if key == ord('q'):
             server_socket.close()
@@ -85,7 +94,7 @@ while True:
 
         if cnt == framesToCount:
             try:
-                fps = round(framesToCount/(time.time()-st))
+                fps = round(framesToCount/(time.time()-st), 10)
                 st = time.time()
                 cnt = 0
             except:
